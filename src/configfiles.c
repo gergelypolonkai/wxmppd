@@ -10,12 +10,17 @@
 #include "modules.h"
 
 int
-wxmppd_processConfigfile(const char *file, int startup)
+wxmppd_processConfigfile(const char *file, int startup, wxmppd_config_t **config)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpathCtx;
 	xmlXPathObjectPtr xpathObject;
 	int i;
+
+	if (config)
+	{
+		*config = g_new0(wxmppd_config_t, 1);
+	}
 
 	if ((doc = xmlParseFile(file)) == NULL)
 	{
@@ -31,24 +36,60 @@ wxmppd_processConfigfile(const char *file, int startup)
 		return WXMPPD_CONFIG_BADFILE;
 	}
 
-	printf("%d nodes found.\n", xpathObject->nodesetval->nodeNr);
-	for (i = 0; i < xpathObject->nodesetval->nodeNr; i++)
+	if (xpathObject->nodesetval)
 	{
-		xmlNodePtr textNode;
-
-		if (xmlChildElementCount(xpathObject->nodesetval->nodeTab[i]) > 0)
+		for (i = 0; i < xpathObject->nodesetval->nodeNr; i++)
 		{
-			printf("Config file error! modules/load elements cannot have children!\n");
-			xmlXPathFreeContext(xpathCtx);
+			xmlNodePtr textNode;
+
+			if (xmlChildElementCount(xpathObject->nodesetval->nodeTab[i]) > 0)
+			{
+				printf("Config file error! modules/load elements cannot have children!\n");
+				xmlXPathFreeContext(xpathCtx);
+				xmlXPathFreeObject(xpathObject);
+				return WXMPPD_CONFIG_BADFILE;
+			}
+
+			wxmppd_loadModule(xpathObject->nodesetval->nodeTab[i]->children->content, (config == NULL));
+		}
+	}
+
+	xmlXPathFreeObject(xpathObject);
+
+	if ((xpathObject = xmlXPathEvalExpression("/wxmppd/modules/module-dir", xpathCtx)) == NULL)
+	{
+		printf("Config file error during xpath!\n");
+		xmlXPathFreeContext(xpathCtx);
+		return WXMPPD_CONFIG_BADFILE;
+	}
+
+	if (xpathObject->nodesetval)
+	{
+		if (xpathObject->nodesetval->nodeNr > 1)
+		{
+			printf("Config file cannot contain more than one module-dir definition!\n");
 			xmlXPathFreeObject(xpathObject);
+			xmlXPathFreeContext(xpathCtx);
 			return WXMPPD_CONFIG_BADFILE;
 		}
+		else if (xpathObject->nodesetval->nodeNr == 1)
+		{
+			if (xmlChildElementCount(xpathObject->nodesetval->nodeTab[0]) > 0)
+			{
+				printf("Config file error! modules/load elements cannot have children!\n");
+				xmlXPathFreeContext(xpathCtx);
+				xmlXPathFreeObject(xpathObject);
+				return WXMPPD_CONFIG_BADFILE;
+			}
 
-		wxmppd_loadModule(xpathObject->nodesetval->nodeTab[i]->children->content);
+			if (config)
+			{
+				(*config)->modules_dir = g_strdup(xpathObject->nodesetval->nodeTab[0]->children->content);
+			}
+		}
 	}
 
 	xmlXPathFreeContext(xpathCtx);
-	xmlXPathFreeObject(xpathObject);
 
 	return WXMPPD_CONFIG_SUCCESS;
 }

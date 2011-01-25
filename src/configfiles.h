@@ -6,7 +6,11 @@ enum {
 	WXMPPD_CONFIG_BADFILE,
 };
 
-int wxmppd_processConfigfile(const char *file, int startup);
+typedef struct _wxmppd_config_t {
+	char *modules_dir;
+} wxmppd_config_t;
+
+int wxmppd_processConfigfile(const char *file, int startup, wxmppd_config_t **config);
 
 #endif /* __WXMPPD_CONFIGFILES_H */
 

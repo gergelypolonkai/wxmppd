@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<wxmppd>
+	<options>
+		<keys-file>@sysconfdir@/wxmppd/keys.xml</keys-file>
+	</options>
+	<modules>
+		<load>mod-layer-gnutls</load>
+		<load>mod-auth-gsasl</load>
+		<load>mod-users-sqlite3</load>
+		<load>mod-roster-sqlite3</load>
+	</modules>
+	<!--
+	<interface>
+		<domain>chat.example.org</domain>
+		<port>5222</port>
+		<extensions>
+			<extension>
+				<name>layer-tls</name>
+				<options>
+					<required/>
+					<x509-key>@sysconfdir@/wxmppd/key.pem</x509-key>
+					<x509-cert>@sysconfdir@/wxmppd/cert.pem</x509-cert>
+				</options>
+			</extension>
+			<extension>
+				<name>auth-sasl</name>
+				<options>
+					<required/>
+					<mechanisms>
+						<mechanism>PLAIN</mechanism>
+					</mechanisms>
+				</options>
+			</extension>
+		</extensions>
+	</interface>
+	-->
+</wxmppd>

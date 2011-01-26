@@ -1,0 +1,21 @@
+Requirements
+------------
+
+If you want to hack on wXMPPd, you should have the following packages (or newer
+versions) installed:
+
+    * GNU autoconf 2.65
+        - ftp://ftp.gnu.org/gnu/autoconf/
+    * GNU automake 1.11
+        - ftp://ftp.gnu.org/gnu/automake/
+    * GNU libtool 2.2
+        - ftp://ftp.gnu.org/gnu/libtool/
+
+Fine GNU mirrors are listed at http://www.gnu.org/prep/ftp.html
+Beta software can be found at alpha.gnu.org
+
+    * pkg-config 0.25
+        - http://www.freedesktop.org/software/pkgconfig/
+
+If you get the source code via the git repositories, the autogen.sh script will
+provide some help with building.

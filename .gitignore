@@ -16,5 +16,15 @@ install-sh
 missing
 configure
 src/.deps
+modules/.deps
+modules/.libs
 stamp-h1
 data/*.xml
+*.lo
+*~
+config.guess
+ltmain.sh
+libtool
+config.sub
+m4
+Build/*

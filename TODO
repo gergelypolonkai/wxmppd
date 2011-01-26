@@ -1,0 +1,66 @@
+[ ] Modular design
+    [ ] Authentication and authorization
+        [ ] SQLite3
+        [ ] MySQL
+        [ ] PostgreSQL
+        [ ] LDAP
+    [ ] Roster storage
+        [ ] SQLite3
+        [ ] MySQL
+        [ ] PostgreSQL
+        [ ] LDAP?
+    [ ] Group chat
+    [ ] File sending
+    [ ] Server-side chat logging
+
+[ ] GnuTLS
+[X] gLib
+[ ] gNet
+
+Hooks:
+
+[ ] c2s-message
+[ ] s2c-message
+[ ] s2s-message
+[ ] client-authentication
+[ ] client-authorization
+[ ] client-presence-change
+
+Configuration file:
+
+[X] Global logging
+[X] Modules
+    [X] Module directory
+    [X] Modules to load on startup
+[o] Interface
+    [X] IP
+    [X] Port
+    [X] Domain
+    [-] Certificate file
+    [-] Key file
+    [X] Logging
+        [X] Log destination: syslog, file
+        [X] Log options: connection events, etc.
+
+Code flow:
+
+[X] Command line processing (Command line option can override the place of the configuration file)
+[X] Configuration file processing (Command line options override configuration global values like modules directory, log destination)
+[ ] Create logger thread
+    [ ] Start logging according to configuration
+[ ] Load modules
+    [ ] Load module file
+    [ ] Run initialization function to...
+        [ ] Register extensions
+        [ ] Create special interfaces
+        [ ] Register to hooks
+[ ] Create interfaces
+    [ ] Create listener thread and sockets
+    [ ] Create stream processing threads
+    [ ] Associate stream processing threads with sockets
+    [ ] Assign extensions to stream processing threads
+    [ ] Process extension configuration directives
+    [ ] Start socket thread
+        When new connection arrives
+        [ ] Create peer object
+        [ ] Associate with corresponding stream interface

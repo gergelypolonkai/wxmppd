@@ -1,5 +1,22 @@
 <?xml version="1.0"?>
 <wxmppd>
+	<logging>
+		<info>
+			<syslog>
+				<facility>DAEMON</facility>
+				<loglevel>INFO</loglevel>
+				<options>PID</options>
+			</syslog>
+		</info>
+		<error>
+			<syslog>
+				<facility>DAEMON</facility>
+				<loglevel>ERR</loglevel>
+				<options>PID</loglevel>
+			</syslog>
+		</error>
+		<debug />
+	</logging>
 	<options>
 		<keys-file>@sysconfdir@/wxmppd/keys.xml</keys-file>
 	</options>
@@ -10,10 +27,27 @@
 		<load>mod-users-sqlite3</load>
 		<load>mod-roster-sqlite3</load>
 	</modules>
-	<!--
 	<interface>
 		<domain>chat.example.org</domain>
+		<ip>127.0.0.1</ip>
 		<port>5222</port>
+		<logging>
+			<!-- As error and info tags are not specified, the global options will be used for them -->
+			<connections>
+				<syslog>
+					<facility>DAEMON</facility>
+					<loglevel>INFO</loglevel>
+					<options>PID</options>
+				</syslog>
+			</connections>
+			<authentication>
+				<file>
+					<path>/var/log/wxmppd/auth.log</path>
+					<rotate>1d</rotate>
+					<options>PID</options>
+				</syslog>
+			</authentication>
+		</logging>
 		<extensions>
 			<extension>
 				<name>layer-tls</name>
@@ -34,5 +68,4 @@
 			</extension>
 		</extensions>
 	</interface>
-	-->
 </wxmppd>

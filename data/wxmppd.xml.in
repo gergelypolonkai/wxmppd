@@ -4,6 +4,7 @@
 		<keys-file>@sysconfdir@/wxmppd/keys.xml</keys-file>
 	</options>
 	<modules>
+		<modules-dir>@libdir@/wxmppd</modules-dir>
 		<load>mod-layer-gnutls</load>
 		<load>mod-auth-gsasl</load>
 		<load>mod-users-sqlite3</load>

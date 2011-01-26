@@ -1,0 +1,9 @@
+lib_LTLIBRARIES = libmod-layer-gnutls.la libmod-auth-gsasl.la libmod-users-sqlite3.la libmod-roster-sqlite3.la
+libmod_layer_gnutls_la_SOURCES = layer-gnutls.c
+libmod_layer_gnutls_la_CPPFLAGS = -I ../src
+libmod_auth_gsasl_la_SOURCES = auth-gsasl.c
+libmod_auth_gsasl_la_CPPFLAGS = -I ../src
+libmod_users_sqlite3_la_SOURCES = users-sqlite3.c
+libmod_users_sqlite3_la_CPPFLAGS = -I ../src
+libmod_roster_sqlite3_la_SOURCES = roster-sqlite3.c
+libmod_roster_sqlite3_la_CPPFLAGS = -I ../src

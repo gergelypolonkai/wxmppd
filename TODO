@@ -1,23 +1,25 @@
-[ ] Modular design
-    [ ] Authentication and authorization
-        [ ] SQLite3
-        [ ] MySQL
-        [ ] PostgreSQL
-        [ ] LDAP
-    [ ] Roster storage
-        [ ] SQLite3
-        [ ] MySQL
-        [ ] PostgreSQL
-        [ ] LDAP?
-    [ ] Group chat
-    [ ] File sending
-    [ ] Server-side chat logging
+Modular design
+==============
+[ ] Authentication and authorization
+    [ ] SQLite3
+    [ ] MySQL
+    [ ] PostgreSQL
+    [ ] LDAP
+[ ] Roster storage
+    [ ] SQLite3
+    [ ] MySQL
+    [ ] PostgreSQL
+    [ ] LDAP?
+[ ] Group chat
+[ ] File sending
+[ ] Server-side chat logging
 
 [ ] GnuTLS
 [X] gLib
 [ ] gNet
 
-Hooks:
+Hooks
+=====
 
 [ ] c2s-message
 [ ] s2c-message
@@ -26,13 +28,14 @@ Hooks:
 [ ] client-authorization
 [ ] client-presence-change
 
-Configuration file:
+Configuration file
+==================
 
 [X] Global logging
 [X] Modules
     [X] Module directory
     [X] Modules to load on startup
-[o] Interface
+[X] Interface
     [X] IP
     [X] Port
     [X] Domain
@@ -40,12 +43,15 @@ Configuration file:
     [-] Key file
     [X] Logging
         [X] Log destination: syslog, file
-        [X] Log options: connection events, etc.
+	[X] Log options: connection events, etc.
 
-Code flow:
+Code flow
+=========
 
-[X] Command line processing (Command line option can override the place of the configuration file)
-[X] Configuration file processing (Command line options override configuration global values like modules directory, log destination)
+[X] Command line processing (Command line option can override the place of the
+    configuration file)
+[X] Configuration file processing (Command line options override configuration
+    global values like modules directory, log destination)
 [ ] Create logger thread
     [ ] Start logging according to configuration
 [ ] Load modules
@@ -64,3 +70,57 @@ Code flow:
         When new connection arrives
         [ ] Create peer object
         [ ] Associate with corresponding stream interface
+[ ] Run main loop
+    [ ] Socket thread
+        [ ] New connections
+	    [ ] Run "before-accept" hook
+	    [ ] Create client object unless connection is dropped in
+	        "before-accept"
+	    [ ] Run "after-accept" hooks
+	    [ ] Install "always-install" extensions on client
+	    [ ] Wait for remote XML Stream to start
+	    [ ] Assign client to correct interface
+	[ ] Old connections
+	    [ ] Run "layer-accept" hooks
+	    [ ] Run "before-interface" hooks
+	    [ ] Pass to assigned interface
+	    [ ] Run "after-interface" hooks
+    [ ] Logging thread
+	[ ] Process received lines one by one. Errors first, info next, debug
+	    last
+    [ ] Interface threads
+        [ ] Receive data from socket thread
+	[ ] Run "before-process" hooks
+	[ ] Process stream
+	[ ] Run "after-process" hooks
+	[ ] Run "before-send" hooks
+	[ ] Send packet to destination if packet is finished
+	[ ] Run "after-send" hooks
+
+During the connection additional extensions can be installed on the client,
+like the layer-tls module's TLS encryptions extension.
+
+Authentication
+==============
+
+When a client requests authentication, client credentials get through the
+authentication module(s) associated with the interface. This authentication
+module must always check the jid via an user storage module, and if necessary,
+it should get the password (or any other credentials like a X509 certificate's
+Common Name field, or a Kerberos principal name) from this storage module,
+either.
+
+Additional modules to provide
+=============================
+[ ] user-mysql
+[ ] roster-mysql
+[ ] user-postgresql
+[ ] roster-postgresql
+[ ] user-ldap
+[ ] roster-ldap?
+[ ] auth-cyrus-sasl
+[ ] log-c2c
+[ ] conn-blackwhite-list
+
+Create a well defined module programming API!
+

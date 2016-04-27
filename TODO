@@ -1,50 +1,3 @@
-Modular design
-==============
-[ ] Authentication and authorization
-    [ ] SQLite3
-    [ ] MySQL
-    [ ] PostgreSQL
-    [ ] LDAP
-[ ] Roster storage
-    [ ] SQLite3
-    [ ] MySQL
-    [ ] PostgreSQL
-    [ ] LDAP?
-[ ] Group chat
-[ ] File sending
-[ ] Server-side chat logging
-
-[ ] GnuTLS
-[X] gLib
-[ ] gNet
-
-Hooks
-=====
-
-[ ] c2s-message
-[ ] s2c-message
-[ ] s2s-message
-[ ] client-authentication
-[ ] client-authorization
-[ ] client-presence-change
-
-Configuration file
-==================
-
-[X] Global logging
-[X] Modules
-    [X] Module directory
-    [X] Modules to load on startup
-[X] Interface
-    [X] IP
-    [X] Port
-    [X] Domain
-    [-] Certificate file
-    [-] Key file
-    [X] Logging
-        [X] Log destination: syslog, file
-	[X] Log options: connection events, etc.
-
 Code flow
 =========
 
@@ -109,18 +62,3 @@ module must always check the jid via an user storage module, and if necessary,
 it should get the password (or any other credentials like a X509 certificate's
 Common Name field, or a Kerberos principal name) from this storage module,
 either.
-
-Additional modules to provide
-=============================
-[ ] user-mysql
-[ ] roster-mysql
-[ ] user-postgresql
-[ ] roster-postgresql
-[ ] user-ldap
-[ ] roster-ldap?
-[ ] auth-cyrus-sasl
-[ ] log-c2c
-[ ] conn-blackwhite-list
-
-Create a well defined module programming API!
-
